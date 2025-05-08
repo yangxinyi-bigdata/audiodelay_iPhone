@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		C5B57DD22DCCD97600973FCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5B57DBC2DCCD97400973FCC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5B57DC32DCCD97400973FCC;
+			remoteInfo = audiodelay_iPhone;
+		};
+		C5B57DDC2DCCD97600973FCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5B57DBC2DCCD97400973FCC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5B57DC32DCCD97400973FCC;
+			remoteInfo = audiodelay_iPhone;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C5B57DC42DCCD97400973FCC /* audiodelay_iPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = audiodelay_iPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5B57DD12DCCD97600973FCC /* audiodelay_iPhoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = audiodelay_iPhoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5B57DDB2DCCD97600973FCC /* audiodelay_iPhoneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = audiodelay_iPhoneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C5B57DC62DCCD97400973FCC /* audiodelay_iPhone */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = audiodelay_iPhone;
+			sourceTree = "<group>";
+		};
+		C5B57DD42DCCD97600973FCC /* audiodelay_iPhoneTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = audiodelay_iPhoneTests;
+			sourceTree = "<group>";
+		};
+		C5B57DDE2DCCD97600973FCC /* audiodelay_iPhoneUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = audiodelay_iPhoneUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C5B57DC12DCCD97400973FCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DCE2DCCD97600973FCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DD82DCCD97600973FCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C5B57DBB2DCCD97400973FCC = {
+			isa = PBXGroup;
+			children = (
+				C5B57DC62DCCD97400973FCC /* audiodelay_iPhone */,
+				C5B57DD42DCCD97600973FCC /* audiodelay_iPhoneTests */,
+				C5B57DDE2DCCD97600973FCC /* audiodelay_iPhoneUITests */,
+				C5B57DC52DCCD97400973FCC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C5B57DC52DCCD97400973FCC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5B57DC42DCCD97400973FCC /* audiodelay_iPhone.app */,
+				C5B57DD12DCCD97600973FCC /* audiodelay_iPhoneTests.xctest */,
+				C5B57DDB2DCCD97600973FCC /* audiodelay_iPhoneUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C5B57DC32DCCD97400973FCC /* audiodelay_iPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5B57DE52DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhone" */;
+			buildPhases = (
+				C5B57DC02DCCD97400973FCC /* Sources */,
+				C5B57DC12DCCD97400973FCC /* Frameworks */,
+				C5B57DC22DCCD97400973FCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C5B57DC62DCCD97400973FCC /* audiodelay_iPhone */,
+			);
+			name = audiodelay_iPhone;
+			packageProductDependencies = (
+			);
+			productName = audiodelay_iPhone;
+			productReference = C5B57DC42DCCD97400973FCC /* audiodelay_iPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C5B57DD02DCCD97600973FCC /* audiodelay_iPhoneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5B57DE82DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhoneTests" */;
+			buildPhases = (
+				C5B57DCD2DCCD97600973FCC /* Sources */,
+				C5B57DCE2DCCD97600973FCC /* Frameworks */,
+				C5B57DCF2DCCD97600973FCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5B57DD32DCCD97600973FCC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5B57DD42DCCD97600973FCC /* audiodelay_iPhoneTests */,
+			);
+			name = audiodelay_iPhoneTests;
+			packageProductDependencies = (
+			);
+			productName = audiodelay_iPhoneTests;
+			productReference = C5B57DD12DCCD97600973FCC /* audiodelay_iPhoneTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C5B57DDA2DCCD97600973FCC /* audiodelay_iPhoneUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5B57DEB2DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhoneUITests" */;
+			buildPhases = (
+				C5B57DD72DCCD97600973FCC /* Sources */,
+				C5B57DD82DCCD97600973FCC /* Frameworks */,
+				C5B57DD92DCCD97600973FCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5B57DDD2DCCD97600973FCC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5B57DDE2DCCD97600973FCC /* audiodelay_iPhoneUITests */,
+			);
+			name = audiodelay_iPhoneUITests;
+			packageProductDependencies = (
+			);
+			productName = audiodelay_iPhoneUITests;
+			productReference = C5B57DDB2DCCD97600973FCC /* audiodelay_iPhoneUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C5B57DBC2DCCD97400973FCC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					C5B57DC32DCCD97400973FCC = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					C5B57DD02DCCD97600973FCC = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C5B57DC32DCCD97400973FCC;
+					};
+					C5B57DDA2DCCD97600973FCC = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C5B57DC32DCCD97400973FCC;
+					};
+				};
+			};
+			buildConfigurationList = C5B57DBF2DCCD97400973FCC /* Build configuration list for PBXProject "audiodelay_iPhone" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C5B57DBB2DCCD97400973FCC;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C5B57DC52DCCD97400973FCC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C5B57DC32DCCD97400973FCC /* audiodelay_iPhone */,
+				C5B57DD02DCCD97600973FCC /* audiodelay_iPhoneTests */,
+				C5B57DDA2DCCD97600973FCC /* audiodelay_iPhoneUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C5B57DC22DCCD97400973FCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DCF2DCCD97600973FCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DD92DCCD97600973FCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C5B57DC02DCCD97400973FCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DCD2DCCD97600973FCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B57DD72DCCD97600973FCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C5B57DD32DCCD97600973FCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5B57DC32DCCD97400973FCC /* audiodelay_iPhone */;
+			targetProxy = C5B57DD22DCCD97600973FCC /* PBXContainerItemProxy */;
+		};
+		C5B57DDD2DCCD97600973FCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5B57DC32DCCD97400973FCC /* audiodelay_iPhone */;
+			targetProxy = C5B57DDC2DCCD97600973FCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C5B57DE32DCCD97600973FCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C5B57DE42DCCD97600973FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C5B57DE62DCCD97600973FCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhone";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C5B57DE72DCCD97600973FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhone";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C5B57DE92DCCD97600973FCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhoneTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/audiodelay_iPhone.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/audiodelay_iPhone";
+			};
+			name = Debug;
+		};
+		C5B57DEA2DCCD97600973FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhoneTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/audiodelay_iPhone.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/audiodelay_iPhone";
+			};
+			name = Release;
+		};
+		C5B57DEC2DCCD97600973FCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhoneUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = audiodelay_iPhone;
+			};
+			name = Debug;
+		};
+		C5B57DED2DCCD97600973FCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N895PD6X4P;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "site.yangxinyi.audiodelay-iPhoneUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = audiodelay_iPhone;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C5B57DBF2DCCD97400973FCC /* Build configuration list for PBXProject "audiodelay_iPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5B57DE32DCCD97600973FCC /* Debug */,
+				C5B57DE42DCCD97600973FCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5B57DE52DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5B57DE62DCCD97600973FCC /* Debug */,
+				C5B57DE72DCCD97600973FCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5B57DE82DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhoneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5B57DE92DCCD97600973FCC /* Debug */,
+				C5B57DEA2DCCD97600973FCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5B57DEB2DCCD97600973FCC /* Build configuration list for PBXNativeTarget "audiodelay_iPhoneUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5B57DEC2DCCD97600973FCC /* Debug */,
+				C5B57DED2DCCD97600973FCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C5B57DBC2DCCD97400973FCC /* Project object */;
+}
