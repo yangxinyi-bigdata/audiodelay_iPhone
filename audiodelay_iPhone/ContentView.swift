@@ -1,14 +1,48 @@
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @State private var delaySeconds: Double = 3.0
     @State private var monitor: DelayedMonitor? = nil
-
+    @State private var availableInputs: [(id: String, name: String)] = []
+    @State private var availableOutputs: [(id: String, name: String)] = []
+    @State private var selectedInputID: String? = nil
+    @State private var selectedOutputID: String? = nil
+    
     var body: some View {
         VStack(spacing: 30) {
             Text("麦克风声音延迟监听")
                 .font(.title2)
                 .padding()
+            
+            VStack(alignment: .leading, spacing: 15) {
+                // 输入设备选择
+                if !availableInputs.isEmpty {
+                    Text("选择输入设备:")
+                        .font(.headline)
+                    Picker("输入设备", selection: $selectedInputID) {
+                        Text("默认麦克风").tag(nil as String?)
+                        ForEach(availableInputs, id: \.id) { input in
+                            Text(input.name).tag(input.id as String?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+                
+                // 输出设备选择
+                if !availableOutputs.isEmpty {
+                    Text("选择输出设备:")
+                        .font(.headline)
+                    Picker("输出设备", selection: $selectedOutputID) {
+                        Text("默认扬声器").tag(nil as String?)
+                        ForEach(availableOutputs, id: \.id) { output in
+                            Text(output.name).tag(output.id as String?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+            }
+            .padding(.horizontal)
 
             Slider(value: $delaySeconds, in: 0...5, step: 0.1) {
                 Text("延迟时间")
@@ -19,7 +53,11 @@ struct ContentView: View {
 
             HStack(spacing: 20) {
                 Button("开始监听") {
-                    monitor = DelayedMonitor(delaySeconds: delaySeconds)
+                    monitor = DelayedMonitor(
+                        delaySeconds: delaySeconds,
+                        inputUID: selectedInputID,
+                        outputUID: selectedOutputID
+                    )
                 }
                 .buttonStyle(.borderedProminent)
 
@@ -33,7 +71,20 @@ struct ContentView: View {
                 }
                 .foregroundColor(.red)
             }
+            
+            Button("刷新设备列表") {
+                refreshDevices()
+            }
+            .padding(.top)
         }
         .padding()
+        .onAppear {
+            refreshDevices()
+        }
+    }
+    
+    private func refreshDevices() {
+        availableInputs = DelayedMonitor.getAvailableInputs()
+        availableOutputs = DelayedMonitor.getAvailableOutputs()
     }
 }
