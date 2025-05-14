@@ -1,6 +1,25 @@
 import SwiftUI
 import AVFoundation
 
+struct AudioLevelMeter: View {
+    let level: Float
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                // 背景
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color(.systemGray6))
+                
+                // 音量条
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.blue)
+                    .frame(width: max(2, geometry.size.width * CGFloat(level)))
+            }
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var delaySeconds: Double = 3.0
     @State private var monitor: DelayedMonitor? = nil
@@ -8,11 +27,20 @@ struct ContentView: View {
     @State private var availableOutputs: [(id: String, name: String)] = []
     @State private var selectedInputID: String? = nil
     @State private var selectedOutputID: String? = nil
+    @State private var audioLevel: Float = 0.0
+    @State private var isRecording: Bool = false
+    @State private var showSaveAlert: Bool = false
+    @State private var recordingURL: URL? = nil
     
     var body: some View {
         VStack(spacing: 30) {
             Text("麦克风声音延迟监听")
                 .font(.title2)
+                .padding()
+            
+            // 添加音频条
+            AudioLevelMeter(level: audioLevel)
+                .frame(width: 200, height: 20)
                 .padding()
             
             VStack(alignment: .leading, spacing: 15) {
@@ -52,24 +80,37 @@ struct ContentView: View {
             Text(String(format: "当前延迟: %.1f 秒", delaySeconds))
 
             HStack(spacing: 20) {
-                Button("开始监听") {
-                    monitor = DelayedMonitor(
-                        delaySeconds: delaySeconds,
-                        inputUID: selectedInputID,
-                        outputUID: selectedOutputID
-                    )
+                Button(isRecording ? "停止监听" : "开始监听") {
+                    if isRecording {
+                        monitor?.stop()
+                        monitor = nil
+                        audioLevel = 0
+                        isRecording = false
+                        showSaveAlert = true
+                    } else {
+                        monitor = DelayedMonitor(
+                            delaySeconds: delaySeconds,
+                            inputUID: selectedInputID,
+                            outputUID: selectedOutputID
+                        )
+                        // 设置音频电平更新回调
+                        monitor?.onAudioLevelUpdate = { level in
+                            audioLevel = level
+                        }
+                        // 设置录音状态回调
+                        monitor?.onRecordingStatusChanged = { recording in
+                            isRecording = recording
+                        }
+                        // 开始录音
+                        monitor?.startRecording()
+                    }
                 }
                 .buttonStyle(.borderedProminent)
 
                 Button("更新延迟") {
                     monitor?.updateDelay(seconds: delaySeconds)
                 }
-
-                Button("停止") {
-                    monitor?.stop()
-                    monitor = nil
-                }
-                .foregroundColor(.red)
+                .disabled(!isRecording)
             }
             
             Button("刷新设备列表") {
@@ -80,6 +121,18 @@ struct ContentView: View {
         .padding()
         .onAppear {
             refreshDevices()
+        }
+        .alert("保存录音", isPresented: $showSaveAlert) {
+            Button("保存") {
+                if let url = monitor?.saveRecording() {
+                    recordingURL = url
+                }
+            }
+            Button("放弃", role: .destructive) {
+                monitor?.discardRecording()
+            }
+        } message: {
+            Text("是否要保存录音文件？")
         }
     }
     
