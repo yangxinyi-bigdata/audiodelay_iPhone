@@ -1,6 +1,25 @@
 import SwiftUI
 import AVFoundation
 
+struct AudioLevelMeter: View {
+    let level: Float
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                // 背景
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color(.systemGray6))
+                
+                // 音量条
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.blue)
+                    .frame(width: max(2, geometry.size.width * CGFloat(level)))
+            }
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var delaySeconds: Double = 3.0
     @State private var monitor: DelayedMonitor? = nil
@@ -8,11 +27,17 @@ struct ContentView: View {
     @State private var availableOutputs: [(id: String, name: String)] = []
     @State private var selectedInputID: String? = nil
     @State private var selectedOutputID: String? = nil
+    @State private var audioLevel: Float = 0.0
     
     var body: some View {
         VStack(spacing: 30) {
             Text("麦克风声音延迟监听")
                 .font(.title2)
+                .padding()
+            
+            // 添加音频条
+            AudioLevelMeter(level: audioLevel)
+                .frame(width: 200, height: 20)
                 .padding()
             
             VStack(alignment: .leading, spacing: 15) {
@@ -58,6 +83,10 @@ struct ContentView: View {
                         inputUID: selectedInputID,
                         outputUID: selectedOutputID
                     )
+                    // 设置音频电平更新回调
+                    monitor?.onAudioLevelUpdate = { level in
+                        audioLevel = level
+                    }
                 }
                 .buttonStyle(.borderedProminent)
 
@@ -68,6 +97,7 @@ struct ContentView: View {
                 Button("停止") {
                     monitor?.stop()
                     monitor = nil
+                    audioLevel = 0
                 }
                 .foregroundColor(.red)
             }

@@ -10,6 +10,11 @@ class DelayedMonitor {
     private var interruptionObserver: NSObjectProtocol?
     private var backgroundTaskID: UIBackgroundTaskIdentifier = .invalid
     
+    // 添加音频监控相关属性
+    private var audioLevelUpdateTimer: Timer?
+    private var currentAudioLevel: Float = 0.0
+    var onAudioLevelUpdate: ((Float) -> Void)?
+    
     deinit {
         endBackgroundTask()
         removeObservers()
@@ -340,6 +345,12 @@ class DelayedMonitor {
 
         engine.attach(delay)
         let format = engine.inputNode.inputFormat(forBus: 0)
+        
+        // 添加音频监控 tap
+        engine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, time in
+            self?.processAudioBuffer(buffer)
+        }
+        
         engine.connect(engine.inputNode, to: delay, format: format)
         engine.connect(delay, to: engine.mainMixerNode, format: format)
         engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
@@ -354,9 +365,37 @@ class DelayedMonitor {
         }
     }
 
+    // 添加音频处理相关方法
+    private func processAudioBuffer(_ buffer: AVAudioPCMBuffer) {
+        guard let channelData = buffer.floatChannelData?[0] else { return }
+        let frameLength = UInt32(buffer.frameLength)
+        
+        // 计算音量值
+        var sum: Float = 0
+        for i in 0..<Int(frameLength) {
+            let sample = channelData[i]
+            sum += sample * sample
+        }
+        
+        let rms = sqrt(sum / Float(frameLength))
+        let db = 20 * log10(rms)
+        
+        // 将分贝值转换为 0-1 范围的值
+        let minDb: Float = -60
+        let maxDb: Float = 0
+        let normalizedValue = max(0, min(1, (db - minDb) / (maxDb - minDb)))
+        
+        // 在主线程更新音量值
+        DispatchQueue.main.async { [weak self] in
+            self?.currentAudioLevel = normalizedValue
+            self?.onAudioLevelUpdate?(normalizedValue)
+        }
+    }
+
     func stop() {
         endBackgroundTask()
         removeObservers()
+        engine.inputNode.removeTap(onBus: 0)
         engine.stop()
         engine.reset()
         
