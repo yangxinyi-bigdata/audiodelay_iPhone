@@ -1,10 +1,48 @@
 import AVFoundation
+import UIKit
 
 class DelayedMonitor {
     private let engine = AVAudioEngine()
     private let delay = AVAudioUnitDelay()
     private var selectedInput: AVAudioSessionPortDescription?
     private var selectedOutput: AVAudioSessionPortDescription?
+    private var routeChangeObserver: NSObjectProtocol?
+    private var interruptionObserver: NSObjectProtocol?
+    private var backgroundTaskID: UIBackgroundTaskIdentifier = .invalid
+    
+    deinit {
+        endBackgroundTask()
+        removeObservers()
+    }
+    
+    private func removeObservers() {
+        if let observer = routeChangeObserver {
+            NotificationCenter.default.removeObserver(observer)
+            routeChangeObserver = nil
+        }
+        
+        if let observer = interruptionObserver {
+            NotificationCenter.default.removeObserver(observer)
+            interruptionObserver = nil
+        }
+    }
+    
+    private func beginBackgroundTask() {
+        // 如果已经有一个后台任务，先结束它
+        endBackgroundTask()
+        
+        // 开始一个新的后台任务
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+    }
+    
+    private func endBackgroundTask() {
+        if backgroundTaskID != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTaskID)
+            backgroundTaskID = .invalid
+        }
+    }
     
     // 辅助函数：获取端口类型的友好名称
     private static func getPortTypeName(_ portType: AVAudioSession.Port) -> String {
@@ -131,7 +169,8 @@ class DelayedMonitor {
                 options.insert(.defaultToSpeaker)
             }
             
-            try session.setCategory(.playAndRecord, options: options)
+            // 设置音频会话类别和选项
+            try session.setCategory(.playAndRecord, mode: .default, options: options)
             try session.setPreferredIOBufferDuration(0.01)
             
             // 设置输入设备
@@ -147,7 +186,6 @@ class DelayedMonitor {
             
             // 如果选择了特定的输出设备，尝试覆盖默认路由
             if let output = selectedOutput {
-                // 注意：iOS可能不允许直接设置某些输出设备，这取决于系统策略
                 print("""
                     尝试设置输出设备:
                     名称: \(output.portName)
@@ -157,6 +195,24 @@ class DelayedMonitor {
             }
             
             try session.setActive(true)
+            
+            // 添加路由变化观察者
+            routeChangeObserver = NotificationCenter.default.addObserver(
+                forName: AVAudioSession.routeChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] notification in
+                self?.handleRouteChange(notification)
+            }
+            
+            // 添加中断观察者
+            interruptionObserver = NotificationCenter.default.addObserver(
+                forName: AVAudioSession.interruptionNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] notification in
+                self?.handleInterruption(notification)
+            }
             
             // 打印最终的音频路由
             print("\n当前音频路由:")
@@ -169,6 +225,111 @@ class DelayedMonitor {
             
         } catch {
             print("配置音频会话失败: \(error.localizedDescription)")
+        }
+    }
+
+    private func handleRouteChange(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
+        }
+        
+        print("\n音频路由发生变化:")
+        print("原因: \(reason)")
+        
+        // 检查引擎状态
+        let wasRunning = engine.isRunning
+        
+        // 根据不同的路由变化原因采取不同的措施
+        switch reason {
+        case .oldDeviceUnavailable, .newDeviceAvailable, .routeConfigurationChange:
+            // 设备切换或设备配置变化
+            print("设备变化，尝试恢复音频路由")
+            
+            // 先暂停引擎
+            if engine.isRunning {
+                engine.pause()
+            }
+            
+            // 重新配置音频会话
+            configureAudioSession()
+            
+            // 尝试重启引擎
+            if wasRunning {
+                restartEngine()
+            }
+            
+        default:
+            // 其他变化类型，也尝试保持引擎运行
+            print("其他路由变化: \(reason.rawValue)，保持引擎运行")
+            
+            // 检查引擎是否还在运行
+            if wasRunning && !engine.isRunning {
+                restartEngine()
+            }
+        }
+    }
+    
+    private func handleInterruption(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            return
+        }
+        
+        print("\n音频会话被中断:")
+        
+        if type == .began {
+            print("中断开始")
+            // 中断开始，暂停引擎
+            if engine.isRunning {
+                engine.pause()
+            }
+        } else if type == .ended {
+            // 中断结束，检查是否应该恢复
+            print("中断结束")
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    print("尝试恢复音频引擎")
+                    // 重新配置音频会话
+                    configureAudioSession()
+                    // 重启引擎
+                    try? engine.start()
+                }
+            }
+        }
+    }
+    
+    private func restartEngine() {
+        // 停止引擎
+        engine.stop()
+        
+        // 等待一小段时间确保引擎完全停止
+        Thread.sleep(forTimeInterval: 0.1)
+        
+        // 重建引擎图
+        buildEngineGraph(delaySeconds: delay.delayTime)
+        
+        // 尝试重启
+        do {
+            try engine.start()
+            print("引擎成功重启")
+        } catch {
+            print("引擎重启失败: \(error)")
+            
+            // 如果重启失败，等待一小段时间后重试
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                guard let self = self else { return }
+                
+                do {
+                    try self.engine.start()
+                    print("引擎延迟重启成功")
+                } catch {
+                    print("引擎延迟重启失败: \(error)")
+                }
+            }
         }
     }
 
@@ -194,8 +355,17 @@ class DelayedMonitor {
     }
 
     func stop() {
+        endBackgroundTask()
+        removeObservers()
         engine.stop()
         engine.reset()
+        
+        // 关闭音频会话
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("关闭音频会话失败: \(error)")
+        }
     }
 }
 

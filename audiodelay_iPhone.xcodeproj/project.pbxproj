@@ -29,9 +29,22 @@
 		C5B57DDB2DCCD97600973FCC /* audiodelay_iPhoneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = audiodelay_iPhoneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C50CD8E02DD48AF7004CB5B2 /* Exceptions for "audiodelay_iPhone" folder in "audiodelay_iPhone" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"audiodelay-iPhone-Info.plist",
+			);
+			target = C5B57DC32DCCD97400973FCC /* audiodelay_iPhone */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C5B57DC62DCCD97400973FCC /* audiodelay_iPhone */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C50CD8E02DD48AF7004CB5B2 /* Exceptions for "audiodelay_iPhone" folder in "audiodelay_iPhone" target */,
+			);
 			path = audiodelay_iPhone;
 			sourceTree = "<group>";
 		};
@@ -402,6 +415,7 @@
 				DEVELOPMENT_TEAM = N895PD6X4P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "audiodelay-iPhone-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "<key>NSMicrophoneUsageDescription</key>\n<string>该应用需要访问麦克风以实现延迟监听功能</string>\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -433,6 +447,7 @@
 				DEVELOPMENT_TEAM = N895PD6X4P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "audiodelay-iPhone-Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "<key>NSMicrophoneUsageDescription</key>\n<string>该应用需要访问麦克风以实现延迟监听功能</string>\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
