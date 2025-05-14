@@ -28,6 +28,9 @@ struct ContentView: View {
     @State private var selectedInputID: String? = nil
     @State private var selectedOutputID: String? = nil
     @State private var audioLevel: Float = 0.0
+    @State private var isRecording: Bool = false
+    @State private var showSaveAlert: Bool = false
+    @State private var recordingURL: URL? = nil
     
     var body: some View {
         VStack(spacing: 30) {
@@ -77,15 +80,29 @@ struct ContentView: View {
             Text(String(format: "当前延迟: %.1f 秒", delaySeconds))
 
             HStack(spacing: 20) {
-                Button("开始监听") {
-                    monitor = DelayedMonitor(
-                        delaySeconds: delaySeconds,
-                        inputUID: selectedInputID,
-                        outputUID: selectedOutputID
-                    )
-                    // 设置音频电平更新回调
-                    monitor?.onAudioLevelUpdate = { level in
-                        audioLevel = level
+                Button(isRecording ? "停止监听" : "开始监听") {
+                    if isRecording {
+                        monitor?.stop()
+                        monitor = nil
+                        audioLevel = 0
+                        isRecording = false
+                        showSaveAlert = true
+                    } else {
+                        monitor = DelayedMonitor(
+                            delaySeconds: delaySeconds,
+                            inputUID: selectedInputID,
+                            outputUID: selectedOutputID
+                        )
+                        // 设置音频电平更新回调
+                        monitor?.onAudioLevelUpdate = { level in
+                            audioLevel = level
+                        }
+                        // 设置录音状态回调
+                        monitor?.onRecordingStatusChanged = { recording in
+                            isRecording = recording
+                        }
+                        // 开始录音
+                        monitor?.startRecording()
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -93,13 +110,7 @@ struct ContentView: View {
                 Button("更新延迟") {
                     monitor?.updateDelay(seconds: delaySeconds)
                 }
-
-                Button("停止") {
-                    monitor?.stop()
-                    monitor = nil
-                    audioLevel = 0
-                }
-                .foregroundColor(.red)
+                .disabled(!isRecording)
             }
             
             Button("刷新设备列表") {
@@ -110,6 +121,18 @@ struct ContentView: View {
         .padding()
         .onAppear {
             refreshDevices()
+        }
+        .alert("保存录音", isPresented: $showSaveAlert) {
+            Button("保存") {
+                if let url = monitor?.saveRecording() {
+                    recordingURL = url
+                }
+            }
+            Button("放弃", role: .destructive) {
+                monitor?.discardRecording()
+            }
+        } message: {
+            Text("是否要保存录音文件？")
         }
     }
     

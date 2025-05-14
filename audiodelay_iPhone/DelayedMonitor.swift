@@ -15,6 +15,15 @@ class DelayedMonitor {
     private var currentAudioLevel: Float = 0.0
     var onAudioLevelUpdate: ((Float) -> Void)?
     
+    // 添加录音相关属性
+    private var audioFile: AVAudioFile?
+    private var isRecording = false
+    private var recordingURL: URL?
+    private var inputFormat: AVAudioFormat?
+    
+    // 添加录音状态回调
+    var onRecordingStatusChanged: ((Bool) -> Void)?
+    
     deinit {
         endBackgroundTask()
         removeObservers()
@@ -339,20 +348,21 @@ class DelayedMonitor {
     }
 
     private func buildEngineGraph(delaySeconds: TimeInterval) {
+        // 配置延迟效果
         delay.delayTime = delaySeconds
         delay.feedback = 0
         delay.wetDryMix = 100
-
+        
+        // 获取输入节点
+        let inputNode = engine.inputNode
+        inputFormat = inputNode.outputFormat(forBus: 0)
+        
+        // 附加延迟节点到引擎
         engine.attach(delay)
-        let format = engine.inputNode.inputFormat(forBus: 0)
         
-        // 添加音频监控 tap
-        engine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, time in
-            self?.processAudioBuffer(buffer)
-        }
-        
-        engine.connect(engine.inputNode, to: delay, format: format)
-        engine.connect(delay, to: engine.mainMixerNode, format: format)
+        // 连接节点
+        engine.connect(inputNode, to: delay, format: inputFormat)
+        engine.connect(delay, to: engine.mainMixerNode, format: inputFormat)
         engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
     }
 
@@ -365,39 +375,136 @@ class DelayedMonitor {
         }
     }
 
-    // 添加音频处理相关方法
-    private func processAudioBuffer(_ buffer: AVAudioPCMBuffer) {
-        guard let channelData = buffer.floatChannelData?[0] else { return }
-        let frameLength = UInt32(buffer.frameLength)
+    private func setupRecordingTap() {
+        guard let inputFormat = inputFormat else { return }
         
-        // 计算音量值
-        var sum: Float = 0
-        for i in 0..<Int(frameLength) {
-            let sample = channelData[i]
-            sum += sample * sample
+        // 创建录音文件
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let appFolder = documentsPath.appendingPathComponent("Recordings", isDirectory: true)
+        
+        // 确保文件夹存在
+        try? FileManager.default.createDirectory(at: appFolder, withIntermediateDirectories: true, attributes: nil)
+        
+        // 创建唯一的文件名
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+        let fileName = "recording_\(dateFormatter.string(from: Date())).wav"
+        recordingURL = appFolder.appendingPathComponent(fileName)
+        
+        // 设置音频格式
+        var audioSettings: [String: Any] = [
+            AVFormatIDKey: kAudioFormatLinearPCM,
+            AVSampleRateKey: 44100.0,
+            AVNumberOfChannelsKey: 1,
+            AVLinearPCMBitDepthKey: 16,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
+            AVLinearPCMIsNonInterleaved: false
+        ]
+        
+        do {
+            audioFile = try AVAudioFile(forWriting: recordingURL!, settings: audioSettings)
+            print("录音文件将保存到: \(recordingURL!.path)")
+        } catch {
+            print("创建录音文件失败: \(error.localizedDescription)")
+            return
         }
         
-        let rms = sqrt(sum / Float(frameLength))
-        let db = 20 * log10(rms)
-        
-        // 将分贝值转换为 0-1 范围的值
-        let minDb: Float = -60
-        let maxDb: Float = 0
-        let normalizedValue = max(0, min(1, (db - minDb) / (maxDb - minDb)))
-        
-        // 在主线程更新音量值
-        DispatchQueue.main.async { [weak self] in
-            self?.currentAudioLevel = normalizedValue
-            self?.onAudioLevelUpdate?(normalizedValue)
+        // 安装录音 tap
+        engine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { [weak self] buffer, time in
+            guard let self = self else { return }
+            
+            // 计算音频电平
+            let channelData = buffer.floatChannelData?[0]
+            let frameLength = UInt32(buffer.frameLength)
+            var sum: Float = 0
+            
+            for i in 0..<Int(frameLength) {
+                let sample = channelData?[i] ?? 0
+                sum += sample * sample
+            }
+            
+            let rms = sqrt(sum / Float(frameLength))
+            let db = 20 * log10(rms)
+            let normalizedValue = (db + 50) / 50 // 将 -50dB 到 0dB 映射到 0 到 1
+            
+            DispatchQueue.main.async {
+                self.currentAudioLevel = max(0, min(1, normalizedValue))
+                self.onAudioLevelUpdate?(self.currentAudioLevel)
+            }
+            
+            // 如果正在录音，写入文件
+            if self.isRecording {
+                do {
+                    // 创建新的缓冲区，使用正确的格式
+                    let convertedBuffer = AVAudioPCMBuffer(pcmFormat: self.audioFile!.processingFormat,
+                                                         frameCapacity: buffer.frameCapacity)!
+                    convertedBuffer.frameLength = buffer.frameLength
+                    
+                    // 直接复制音频数据
+                    if let inputData = buffer.floatChannelData?[0],
+                       let outputData = convertedBuffer.floatChannelData?[0] {
+                        let frameCount = Int(buffer.frameLength)
+                        for i in 0..<frameCount {
+                            outputData[i] = inputData[i]
+                        }
+                    }
+                    
+                    // 写入转换后的缓冲区
+                    try self.audioFile?.write(from: convertedBuffer)
+                } catch {
+                    print("写入录音文件失败: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    private func removeRecordingTap() {
+        engine.inputNode.removeTap(onBus: 0)
+        // 确保文件被正确关闭
+        audioFile = nil
+    }
+
+    func startRecording() {
+        if !isRecording {
+            setupRecordingTap()
+            isRecording = true
+            onRecordingStatusChanged?(true)
+        }
+    }
+    
+    func stopRecording() {
+        if isRecording {
+            isRecording = false
+            onRecordingStatusChanged?(false)
+            removeRecordingTap()
+        }
+    }
+    
+    func saveRecording() -> URL? {
+        stopRecording()
+        // 确保文件被正确关闭
+        audioFile = nil
+        return recordingURL
+    }
+    
+    func discardRecording() {
+        stopRecording()
+        if let url = recordingURL {
+            try? FileManager.default.removeItem(at: url)
+            recordingURL = nil
         }
     }
 
     func stop() {
         endBackgroundTask()
         removeObservers()
-        engine.inputNode.removeTap(onBus: 0)
+        removeRecordingTap()
         engine.stop()
         engine.reset()
+        
+        // 确保文件被正确关闭
+        audioFile = nil
         
         // 关闭音频会话
         do {
